@@ -12,7 +12,7 @@ public class WebScrapper {
             return;
         }
 
-        // Projde všechny paragraphy, které mají <strong>
+
         Elements paragraphs = contentDiv.select("p:has(strong)");
 
         for (Element paragraph : paragraphs) {
@@ -20,7 +20,7 @@ public class WebScrapper {
             if (question.contains("?")) {
                 System.out.println("Otázka: " + question);
 
-                // Najde následující <ul> s odpověďmi
+
                 Element next = paragraph.nextElementSibling();
                 if (next != null && next.tagName().equals("ul")) {
                     Elements correctAnswers = next.select("li.correct_answer");
@@ -29,7 +29,7 @@ public class WebScrapper {
                     }
                 }
 
-                System.out.println(); // oddělovač
+                System.out.println();
 
             }
         }

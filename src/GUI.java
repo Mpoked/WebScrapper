@@ -1,11 +1,13 @@
 import com.formdev.flatlaf.FlatLightLaf;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import javax.swing.*;
 
 public class GUI extends JFrame {
     private JPanel pnMain;
     private JList list1;
     private JTextArea textArea1;
+    private WebScrapper webScrapper;
 
     public GUI() {
         initComponents();
@@ -30,6 +32,10 @@ public class GUI extends JFrame {
         menu.add(ulozit);
         menu.add(ulozitJako);
 
+        novy.addActionListener(e -> nactiOdkaz());
+
+
+
         String[] data = {"Jablko", "Banán", "Hruška", "Pomeranč"};
         list1.setListData(data);
 
@@ -41,6 +47,19 @@ public class GUI extends JFrame {
 
     }
 
+    private void nactiOdkaz() {
+        String url = JOptionPane.showInputDialog(this, "Zadejte URL adresu:");
+        if (url != null) {
+            try {
+                webScrapper = new WebScrapper();
+                Document doc = Jsoup.connect(url).get();
+                webScrapper.nacteniStranky(doc);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Chyba při načítání stránky: " + e.getMessage());
+            }
+        }
+    }
+
 
     public void guiViditelne() {
         try {
@@ -50,7 +69,7 @@ public class GUI extends JFrame {
         }
 
         SwingUtilities.invokeLater(() -> {
-            // Zde vytvoříš GUI z .form
+
             GUI gui = new GUI();
             gui.setVisible(true);
         });
